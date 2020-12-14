@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static fileservice.IOReader.fileRead;
+import static fileservice.IOWriter.fileWrite;
+
 public class MenuInteraction extends RegexForms {
 
     private ArrayList<Person> person = new ArrayList<>();
@@ -40,7 +43,7 @@ public class MenuInteraction extends RegexForms {
         System.out.println("Nhập địa chỉ: ");
         String address = sc.nextLine();
         IOReader.arrayList.add(new Person(number,group,name,gender,address));
-        IOWriter.fileWrite("data.txt");
+        fileWrite("data.txt");
     }
 
     public static void editPerson() {
@@ -61,7 +64,7 @@ public class MenuInteraction extends RegexForms {
                 System.out.println("Nhập địa chỉ mới :");
                 String newAddress = sc.nextLine();
                 person.get(i).setAddress(newAddress);
-                IOWriter.fileWrite("data.txt");
+                fileWrite("data.txt");
                 break;
             }
         }
@@ -82,33 +85,24 @@ public class MenuInteraction extends RegexForms {
     }
 
     public static void searchPerson() {
-        int n = 0;
-        do {
-            System.out.println("Chọn Chức Năng");
-            System.out.println("1 : Tìm");
-            System.out.println("2 : Thoát ");
             try {
-                n = Integer.parseInt(sc.nextLine());
-                if (n == 1) {
-                    System.out.println("Nhập Thông Tin Cần Tìm :");
-                    String regex = sc.nextLine();
-                    int index = 0;
-                    Pattern pattern = Pattern.compile(regex);
-                    Matcher matcher;
-                    for (int i = 0; i < getPerson().size(); i++) {
-                        matcher = pattern.matcher(getPerson().get(i).getName());
-                        if (matcher.find()) {
-                            System.out.println("STT " + i + " : " + getPerson().get(i).toString());
-                            index++;
-                        }
+                System.out.println("Nhập Thông Tin Cần Tìm :");
+                String regex = sc.nextLine();
+                int index = 0;
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher;
+                for (int i = 0; i < getPerson().size(); i++) {
+                    matcher = pattern.matcher(getPerson().get(i).getName());
+                    if (matcher.find()) {
+                        System.out.println("STT " + i + " : " + getPerson().get(i).toString());
+                        index++;
                     }
-                    if (index <= 0) {
-                        System.out.println("Thông tin này không có trong danh sách ");
-                    }
+                }
+                if (index <= 0) {
+                    System.out.println("Thông tin này không có trong danh sách ");
                 }
             } catch (Exception e) {
                 System.out.println("Chưa nhập thông tin ");
             }
-        } while (n != 2);
     }
 }

@@ -44,9 +44,9 @@ public class Menu extends RegexForms {
                 case 5:
                     searchPerson();
                     break;
-//                case 6:
-//
-//                    break;
+                case 6:
+                    IOReader.fileRead("data.txt");
+                    break;
                 case 7:
                     IOWriter.fileWrite("data.txt");
                     break;
